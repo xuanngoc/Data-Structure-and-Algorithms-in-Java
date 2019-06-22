@@ -164,4 +164,5 @@ if ((i >= 0) && (i < a.length) && (a[i] > 2) )
     × = a[i];
 ```
 
+#### 1.5.1 Declaring Arrays 
 
