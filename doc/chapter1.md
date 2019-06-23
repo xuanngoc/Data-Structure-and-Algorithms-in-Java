@@ -156,7 +156,7 @@ bounds. Out of bounds references have been exploited numerous times by hackers
 using a method called the buffer overflow attack to compromise the security of
 computer systems written in languages other than Java. As a safety feature, array indices are always checked in Java to see if they are ever out of bounds. If an array index is out of bounds, the run-time Java environment signals an error condition. The name of this condition is the _ArrayIndexOutOfBoundsException_. This check helps Java avoid a number of security problems (including _buffer overflow attacks_) that other languages must cope with.
 We can avoid out-of-bounds errors by making sure that we alway index into an
-array, a, using an integer value between 0 and a.length. One shorthand way we
+array, a, _using an integer value between 0 and a.length_. One shorthand way we
 can do this is by carefully using the early termination feature of Boolean operations in Java. For example, a statement like the following will never generate an index out-of-bounds error: 
 
 ```java
@@ -165,4 +165,106 @@ if ((i >= 0) && (i < a.length) && (a[i] > 2) )
 ```
 
 #### 1.5.1 Declaring Arrays 
+#### 1.5.2 Arrays are Objects 
+The fact that arrays in Java are objects has an important implication when it comes to using array names in assignment statements. For when we write something like 
+```java
+arrayB = arrayA;
+```
+in a Java program, we really mean that _b and a now both refer_ to the same array.
 
+**Cloning an Array**
+If instead, we wanted to create an exact copy of the array, a, and assign that array to the array variable, b, we should write 
+```java
+b= a.clone();
+```
+which copies all of the cells of a into a new array and assigns b to point to that new array. 
+
+### 1.6 Simple Input and Output
+**Simple Output Methods**
+
+Java provides a built-in static object, called __System.out__, that performs output to the "standard output" device. Most operating system shells allow users to redirect standard output to files or even as input to other programs, but the default output is to the Java console window. The System.out object is an instance of the _java.io.PrintStream class_.
+An Output Example
+```java
+System.out.print("Hello world!");
+System.out.print(3.1415);
+System.out.print(',');
+System.out.print(15);
+```
+
+**Simple Input Using the java.util.Scanner Class**
+
+The __System.in__ object is an object associated with the standard
+input device. A simple way of reading input with this object is to use it to create a Scanner object, using the expression
+```java
+new Scanner(System.in)
+```
+The __Scanner__ class has a number of convenient included methods that read from
+the given input stream.
+For example, the following program uses a Scanner object
+to process input: 
+```java
+import java.io.*;
+import java.util.Scanner;
+public class InputExample {
+    public static void main(String args[]) throws IOException {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter your height in centimeters: ");
+        float height = s.nextFloat();
+        System.out.print("Enter your weight in kilograms: ");
+        float weight = s.nextFloat();
+        float bmi = weight/(height*height)*10000;
+        System.out.println("Your body mass index is " + bmi + ".");
+    }
+}
+```
+
+**java.util.Scanner Methods**
+
+The __Scanner__ class reads the input stream and divides it into __tokens__, which are _contiguous strings_ of characters separated by __delimiters__, which are separating characters. 
+
+The Scanner class includes the following methods for dealing with tokens: 
+- __hasNext()__: Return true if and only if there is another token in the input
+stream.
+- __next()__: Return the next token string in the input stream; generate an error if there are no more tokens left.
+- __hasNext*Type()*__: Return true if and only if there is another token in the input stream and it can be interpreted as the corresponding base type, Type, where Type can be Boolean, Byte, Double, Float, Int, Long, or Short.
+- __nextType()__: Return the next token in the input stream, returned as the base type corresponding to Type; generate an error if there are no more tokens left or if the next token cannot be interpreted as a base type corresponding to Type. 
+
+Additionally, Scanner objects can process input line by line, ignoring delimiters,
+and even look for patterns within lines while doing so. The methods for processing
+input in this way include the following:
+- __hasNextLine()__: Returns true if and only if the input stream has another
+line of text.
+- __nextLine()__: Advances the input past the current line ending and returns
+the input that was skipped.
+- __findInLine(String s)__: Attempts to find a string matching the (regular
+expression) pattern _s_ in the current line. If the pattern is found, it is returned and the scanner advances to the first character after this match. If the pattern is not found, the scanner returns null and doesn't advance. 
+
+### 1.7 Writing a Java Program
+The process of writing a Java program involves three fundamental steps:
+1. Design
+2. Coding
+3. Testing and Debugging. 
+
+#### 1.9.1 Design 
+The design step is perhaps the most important step in the process of writing a
+program. For it is in the design step that we decide how to divide the workings of our program into classes, we decide how these classes will interact, what data each will store, and what actions each will perform.
+
+There are some general rules of thumb that we can apply when determining how to define our classes: 
+- __Responsibilities__: Divide the work into different __actors__, each with a
+different responsibility. Try to _describe responsibilities using action verbs_. These actors will form the classes for the program. 
+- __Independence__: Define the work for each class to be as independent from
+other classes as possible. _Subdivide_ responsibilities between classes so that each class has _autonomy_ over some aspect of the program. Give data (as instance variables) to the class that has _jurisdiction_ over the actions that require access to this data. 
+- __Behaviors__: So that the _consequences_ of each action performed by a class will be well understood by other classes that _interact_ with it, define the behaviors for each class _carefully and precisely_. These behaviors will _define the methods_ that this class performs. The set of behaviors for a class is _sometimes referred_ to as a protocol, for we expect the behaviors for a class to hold together as a cohesive unit.
+
+#### 1.9.2 Pseudo-Code 
+Pseudo-code is not a computer program, but is more structured than usual
+prose. Pseudo-code is a mixture of _natural language_ and _high-level programming constructs_ that describe the _main ideas_ behind a generic implementation of a d_ata structure or algorithm_. 
+
+#### 1.9.3 Coding 
+**Javadoc**
+In order to encourage good use of block comments and the automatic production
+of documentation, the Java programming environment comes with a
+documentation production program called _javadoc_. This program takes a
+collection of Java source files that have been commented using certain keywords, called __tags__, and it produces a series of HTML documents that describe the classes, methods, variables, and constants contained in these files. 
+
+**Readability and Style**
